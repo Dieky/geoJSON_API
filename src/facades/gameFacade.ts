@@ -50,7 +50,7 @@ export default class GameFacade {
     //1) Create expiresAfterSeconds index on lastUpdated
     positionCollection.createIndex({ "lastUpdated": 1 }, { expireAfterSeconds: EXPIRES_AFTER });
     //2) Create 2dsphere index on location
-    positionCollection.createIndex({ location: '2dsphere' });
+    //positionCollection.createIndex({ location: '2dsphere' });
 
 
 
@@ -95,7 +95,7 @@ export default class GameFacade {
       short time */
       const found = await positionCollection.findOneAndUpdate(
         { userName }, //Add what we are searching for (the userName in a Position Document)
-        { $set: { userName: userName, name: userName, date, point } }, // Add what needs to be added here, remember the document might NOT exist yet
+        { $set: { userName: userName, name: userName, "lastUpdated": date,"location": point } }, // Add what needs to be added here, remember the document might NOT exist yet
         { upsert: true, returnOriginal: false }  // Figure out why you probably need to set both of these
       )
 
@@ -105,6 +105,7 @@ export default class GameFacade {
       Next step is to see if we can find any nearby players
       */
       const nearbyPlayers = await GameFacade.findNearbyPlayers(userName, point, distance);
+      // return nearbyPlayers
 
       //If anyone found,  format acording to requirements
       const formatted = nearbyPlayers.map((player) => {

@@ -9,13 +9,8 @@ const app = express();
 
 app.use(express.static(path.join(process.cwd(), "public")))
 
-//  Add if needed
-//app.use(requestLogger)
-
-
 app.use(express.json())
 
-// const userAPIRouter = require('./routes/userApiDB');
 const userAPIRouter = require('./routes/gameApi');
 
 app.get("/api/dummy", (req, res) => {
@@ -24,8 +19,6 @@ app.get("/api/dummy", (req, res) => {
 
 app.use("/api/users", userAPIRouter);
 
-//  Add if needed
-// app.use(errorLogger)
 
 //404 handler
 app.use(function (req, res, next) {

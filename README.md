@@ -16,7 +16,6 @@ MOCHA_TIMEOUT=5000
 ## HINTS
 
 Remember you can run individual typescript files using ts-node like this:
-
 `ts-node -r dotenv/config ./src/PATH_TO_FILE`
 
 Send post request to localhost:5555/api/users/nearbyplayers/
