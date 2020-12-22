@@ -10,10 +10,10 @@ const app = express();
 app.use(express.static(path.join(process.cwd(), "public")))
 app.use(express.json())
 
-const userAPIRouter = require('./routes/gameAPI');
+const userAPIRouter = require('./routes/gameApi');
 
 app.get("/api/dummy", (req, res) => {
-  res.json({ msg: "Hello are the changes reflected?" })
+  res.json({ msg: "Hello" })
 })
 
 app.use("/api/users", userAPIRouter);
