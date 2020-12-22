@@ -8,7 +8,7 @@ import { ApiError } from "./errors/apiError";
 const app = express();
 
 app.use(express.static(path.join(process.cwd(), "public")))
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
 const userAPIRouter = require('./routes/gameApi');
