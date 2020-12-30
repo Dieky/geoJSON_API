@@ -4,11 +4,6 @@ import {gameArea, players } from "../config/gameData";
 const gju = require("geojson-utils")
 const router = express.Router();
 
-//Just to check this router is up and running
-router.get('/', async function (req, res, next) {
-    res.json(gameArea)
-})
-
 
 let polygonForClient:any = {};
 polygonForClient.coordinates = gameArea.coordinates[0].map(point => {
