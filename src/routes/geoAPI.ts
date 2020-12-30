@@ -1,22 +1,23 @@
 import express from "express";
 import gameFacade from "../facades/gameFacade";
-import {gameArea, players } from "../config/gameData";
+import { gameArea, players } from "../config/gameData";
 const gju = require("geojson-utils")
 const router = express.Router();
 
 
-let polygonForClient:any = {};
+let polygonForClient: any = {};
 polygonForClient.coordinates = gameArea.coordinates[0].map(point => {
     return { latitude: point[1], longitude: point[0] }
 })
 
-router.get('/', async function (req, res, next) {
-    res.json(gameArea)
-})
+// router.get('/', async function (req, res, next) {
+//     res.json(gameArea)
+// })
 
 //Returns a polygon, representing the gameArea
 router.get("/geoapi/gamearea", async (req, res, next) => {
-    res.json(polygonForClient);
+    res.json(gameArea)
+    // res.json(polygonForClient);
 });
 
 router.get('/geoapi/isuserinarea/:lon/:lat', function (req, res,) {
@@ -24,7 +25,7 @@ router.get('/geoapi/isuserinarea/:lon/:lat', function (req, res,) {
     const lat = req.params.lat;
     const point = { "type": "Point", "coordinates": [lon, lat] }
     let isInside = gju.pointInPolygon(point, gameArea);
-    let result:any = {};
+    let result: any = {};
     result.status = isInside;
     let msg = isInside ? "Point was inside the tested polygon" :
         "Point was NOT inside tested polygon";
@@ -38,7 +39,7 @@ router.get('/geoapi/findNearbyPlayers/:lon/:lat/:rad', function (req, res) {
     const rad = Number(req.params.rad);
     const point = { "type": "Point", "coordinates": [lon, lat] }
     let isInside = gju.pointInPolygon(point, gameArea);
-    let result:any = [];
+    let result: any = [];
     players.forEach(player => {
         if (gju.geometryWithinRadius(player.geometry, point, rad)) {
             result.push(player);
