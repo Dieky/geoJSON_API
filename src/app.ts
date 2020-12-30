@@ -18,7 +18,7 @@ app.get("/api/dummy", (req, res) => {
 })
 
 app.use("/api/users", userAPIRouter);
-app.use("/geoapi/gamearea", geoAPIRouter);
+app.use("/geoapi/", geoAPIRouter);
 
 
 //404 handler
