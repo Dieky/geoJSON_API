@@ -11,7 +11,8 @@ polygonForClient.coordinates = gameArea.coordinates[0].map(point => {
 })
 
 router.get('/', async function (req, res, next) {
-    res.json(gameArea)
+    res.json(polygonForClient);
+    // res.json(gameArea)
 })
 
 //Returns a polygon, representing the gameArea
