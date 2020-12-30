@@ -11,12 +11,14 @@ app.use(express.static(path.join(process.cwd(), "public")))
 app.use(express.json())
 
 const userAPIRouter = require('./routes/gameAPI');
+const geoAPIRouter = require('./routes/geoAPI');
 
 app.get("/api/dummy", (req, res) => {
   res.json({ msg: "Hello" })
 })
 
 app.use("/api/users", userAPIRouter);
+app.use("/geoapi/gamearea", geoAPIRouter);
 
 
 //404 handler

@@ -61,6 +61,39 @@ export default class GameFacade {
     GameFacade.dbIsReady = true;
   }
 
+  static async updateLocationMobile(userName: string, longitude: number, latitude: number) {
+    GameFacade.isDbReady();
+    let user;
+    try {
+      user = await UserFacade.getUser(userName)
+      if (user == null) {
+        user = {
+          name: userName,
+          userName: userName,
+          password: "secret",
+          role: "user"
+        }
+        await UserFacade.addUser(user)
+        user = await UserFacade.getUser(userName)
+      }
+    } catch (err) {
+      throw new ApiError("wrong username or password", 403)
+    }
+
+    try {
+      const point = { type: "Point", coordinates: [longitude, latitude] }
+      const date = new Date();
+      const found = await positionCollection.findOneAndUpdate(
+        { userName },
+        { $set: { userName: userName, name: userName, "lastUpdated": date, "location": point } },
+        { upsert: true, returnOriginal: false }
+      )
+      return found.value
+    } catch (err) {
+      throw err;
+    }
+  }
+
 
   static async nearbyPlayers(userName: string, password: string, longitude: number, latitude: number, distance: number) {
     GameFacade.isDbReady();
@@ -95,7 +128,7 @@ export default class GameFacade {
       short time */
       const found = await positionCollection.findOneAndUpdate(
         { userName }, //Add what we are searching for (the userName in a Position Document)
-        { $set: { userName: userName, name: userName, "lastUpdated": date,"location": point } }, // Add what needs to be added here, remember the document might NOT exist yet
+        { $set: { userName: userName, name: userName, "lastUpdated": date, "location": point } }, // Add what needs to be added here, remember the document might NOT exist yet
         { upsert: true, returnOriginal: false }  // Figure out why you probably need to set both of these
       )
 
@@ -166,6 +199,7 @@ export default class GameFacade {
     }
 
   }
+
 
   //You can use this if you like, to add new post's via the facade
   static async addPost(

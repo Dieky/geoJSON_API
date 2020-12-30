@@ -28,6 +28,22 @@ router.get('/', async function (req, res, next) {
   res.json({ msg: "game API" })
 })
 
+router.post("/mobile", async function(req,res,next){
+  try {
+    let {username,lon,lat} = req.body;
+    //Read the exercise and check what must be sent with the request. Grab this information from the request body, and 
+    //call the method (the skeleton is already there) nearbyPlayers(....) in the gameFacade and send back the result to the client
+    
+    const response = await gameFacade.updateLocationMobile(username,lon,lat)
+    return res.json(response)
+    /*
+     */
+  } catch (err) {
+    next(err)
+  }
+  
+})
+
 router.post('/nearbyplayers', async function (req, res, next) {
   try {
     let {username,password,lon,lat,radius} = req.body;
