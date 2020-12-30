@@ -16,7 +16,7 @@ polygonForClient.coordinates = gameArea.coordinates[0].map(point => {
 // })
 
 //Returns a polygon, representing the gameArea
-router.get("/geoapi/gamearea", async function (req, res, next) {
+router.get('/geoapi/gamearea', async function (req, res, next) {
     res.json(polygonForClient);
 });
 
