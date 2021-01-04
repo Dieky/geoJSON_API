@@ -10,16 +10,12 @@ polygonForClient.coordinates = gameArea.coordinates[0].map(point => {
     return { latitude: point[1], longitude: point[0] }
 })
 
-// router.get('/', async function (req, res, next) {
-//     res.json(polygonForClient);
-//     // res.json(gameArea)
-// })
-
 //Returns a polygon, representing the gameArea
 router.get('/gamearea', async function (req, res, next) {
     res.json(polygonForClient);
 });
 
+// endpoint for react app. checks if the clicked area on the map is inside the polygon
 router.get('/geoapi/isuserinarea/:lon/:lat', function (req, res,) {
     const lon = req.params.lon;
     const lat = req.params.lat;
