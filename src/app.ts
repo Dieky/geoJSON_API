@@ -10,6 +10,12 @@ const app = express();
 app.use(express.static(path.join(process.cwd(), "public")))
 app.use(express.json())
 
+// middleware
+app.use(function (req, res, next) {
+  console.log('Time:', Date.now())
+  next()
+})
+
 const userAPIRouter = require('./routes/gameAPI');
 const geoAPIRouter = require('./routes/geoAPI');
 
